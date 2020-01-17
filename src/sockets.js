@@ -187,7 +187,9 @@ function init(server) {
         if (gameState.guessedLetters.includes('_')) {
           nextTeam();
         } else {
-          gameEvent('Round over. Next round will begin in 10 seconds.');
+          gameEvent(`Round over. Team ${gameState.currentTeam} wins! Next round will begin in 10 seconds.`);
+          gameState.multiplierScore[1] = 0;
+          gameState.multiplierScore[2] = 0;
           gameState.roundOver = true;
           emitGameState();
           setTimeout(() => {
