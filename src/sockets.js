@@ -3,7 +3,7 @@ const socketIO = require('socket.io');
 /** @type {string[]} */
 let words = require('./webProgrammingTerms.json');
 
-words = words.filter((word) => word.length >= 5).map(word => word.toUpperCase());
+words = words.filter((word) => word.length >= 5).map((word) => word.toUpperCase());
 
 const getRandomWord = () => words[Math.floor(Math.random() * words.length)];
 
@@ -51,6 +51,7 @@ function init(server) {
 
   let teamTimeout = setTimeout(() => {
     gameEvent('Team timeout. Next turn.');
+    // eslint-disable-next-line no-use-before-define
     nextTeam();
   }, teamTimeoutMS);
   function nextTeam() {
@@ -149,6 +150,7 @@ function init(server) {
         return;
       }
       if (player.teamId == gameState.currentTeam) {
+        let lettersCount = 0;
         letter = letter.toUpperCase();
         if (
           serverState.currentWord.match(new RegExp(letter, 'gi'))
@@ -157,13 +159,14 @@ function init(server) {
           serverState.currentWord.split('').forEach((wordLetter, i) => {
             if (wordLetter === letter) {
               gameState.guessedLetters[i] = letter;
+              lettersCount += 1;
             }
           });
-          gameState.score[gameState.currentTeam] += 1;
-          gameEvent(`Team ${player.teamId}: ${player.name} correct guess "${letter}" +1`)
+          gameState.score[gameState.currentTeam] += lettersCount;
+          gameEvent(`Team ${player.teamId}: ${player.name} correct guess "${letter}" +1`);
         } else {
           gameState.score[gameState.currentTeam] -= 1;
-          gameEvent(`Team ${player.teamId}: ${player.name} incorrect guess "${letter}" -1`)
+          gameEvent(`Team ${player.teamId}: ${player.name} incorrect guess "${letter}" -1`);
         }
 
         if (gameState.guessedLetters.includes('_')) {
