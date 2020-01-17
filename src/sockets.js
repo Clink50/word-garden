@@ -15,6 +15,17 @@ function createInitialGuess(word) {
 }
 
 /**
+ * @param {Number} lettersCount
+ * @param {Object} gameState
+ */
+function getScore(lettersCount, gameState) {
+  let score = gameState.score[gameState.currentTeam];
+  gameState.multiplierScore[gameState.currentTeam] += 1;
+  score += lettersCount * gameState.multiplierScore[gameState.currentTeam];
+  return score;
+}
+
+/**
  * @param {import('http').Server} server
  * @readonly void
  */
@@ -166,13 +177,13 @@ function init(server) {
               lettersCount += 1;
             }
           });
-          gameState.score[gameState.currentTeam] += lettersCount;
+          gameState.score[gameState.currentTeam] = getScore(lettersCount, gameState);
           gameEvent(`Team ${player.teamId}: ${player.name} correct guess "${letter}" +${lettersCount}`);
         } else {
+          gameState.multiplierScore[gameState.currentTeam] = 0;
           gameState.score[gameState.currentTeam] -= 1;
           gameEvent(`Team ${player.teamId}: ${player.name} incorrect guess "${letter}" -1`);
         }
-
         if (gameState.guessedLetters.includes('_')) {
           nextTeam();
         } else {
