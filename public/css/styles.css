@@ -131,3 +131,59 @@ button:active {
   font-family: monospace;
   font-size: 1.5rem;
 }
+
+#leaderboard {
+  background: hsl(0, 0%, 8%);
+  color: hsl(0, 0%, 95%);
+  padding: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#leaderboard h1 {
+  font-size: 36px;
+}
+
+#leaderboard h1:not(:last-child) {
+  margin-bottom: 45px;
+}
+
+#alphabet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 375px;
+  background: hsl(0, 0%, 8%);
+  color: hsl(0, 0%, 95%);
+  padding: 30px;
+}
+
+#alphabet span {
+  margin-right: 5px;
+}
+
+.chosen {
+  transition: all .5s;
+  color: red;
+}
+
+@media screen and (max-width: 1000px) {
+  #leaderboard h1 {
+    font-size: 20px;
+  }
+
+  #alphabet {
+    font-size: 20px;
+    padding: 15px;
+    width: 165px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  #leaderboard, #alphabet {
+    display: none;
+  }
+}

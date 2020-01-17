@@ -29,10 +29,11 @@ function getScore(lettersCount, gameState) {
  * @param {Object} gameState
  */
 function resetGame(gameState) {
-  gameState.multiplierScore[1] = 0;
-  gameState.multiplierScore[2] = 0;
-  gameState.score[1] = 0;
-  gameState.score[2] = 0;
+  for (let i = 0; i < gameState.teams.length; i += 1) {
+    gameState.multiplierScore[i] = 0;
+    gameState.score[i] = 0;
+  }
+  gameState.gamesWon[gameState.currentTeam] += 1;
   gameState.roundOver = true;
 }
 
@@ -64,6 +65,10 @@ function init(server) {
       2: 0,
     },
     multiplierScore: {
+      1: 0,
+      2: 0,
+    },
+    gamesWon: {
       1: 0,
       2: 0,
     },
@@ -178,6 +183,7 @@ function init(server) {
       if (player.teamId == gameState.currentTeam) {
         let lettersCount = 0;
         letter = letter.toUpperCase();
+        socket.emit('letter', letter);
         if (
           serverState.currentWord.match(new RegExp(letter, 'gi'))
           && !gameState.guessedLetters.includes(letter)
