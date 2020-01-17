@@ -26,6 +26,17 @@ function getScore(lettersCount, gameState) {
 }
 
 /**
+ * @param {Object} gameState
+ */
+function resetGame(gameState) {
+  gameState.multiplierScore[1] = 0;
+  gameState.multiplierScore[2] = 0;
+  gameState.score[1] = 0;
+  gameState.score[2] = 0;
+  gameState.roundOver = true;
+}
+
+/**
  * @param {import('http').Server} server
  * @readonly void
  */
@@ -188,9 +199,7 @@ function init(server) {
           nextTeam();
         } else {
           gameEvent(`Round over. Team ${gameState.currentTeam} wins! Next round will begin in 10 seconds.`);
-          gameState.multiplierScore[1] = 0;
-          gameState.multiplierScore[2] = 0;
-          gameState.roundOver = true;
+          resetGame(gameState);
           emitGameState();
           setTimeout(() => {
             serverState.currentWord = getRandomWord();
