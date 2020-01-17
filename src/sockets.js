@@ -41,6 +41,10 @@ function init(server) {
       1: 0,
       2: 0,
     },
+    multiplierScore: {
+      1: 0,
+      2: 0,
+    },
   };
 
   const emitGameState = () => io.emit('game-state', gameState);
@@ -163,7 +167,7 @@ function init(server) {
             }
           });
           gameState.score[gameState.currentTeam] += lettersCount;
-          gameEvent(`Team ${player.teamId}: ${player.name} correct guess "${letter}" +1`);
+          gameEvent(`Team ${player.teamId}: ${player.name} correct guess "${letter}" +${lettersCount}`);
         } else {
           gameState.score[gameState.currentTeam] -= 1;
           gameEvent(`Team ${player.teamId}: ${player.name} incorrect guess "${letter}" -1`);
